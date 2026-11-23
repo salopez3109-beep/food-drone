@@ -9,8 +9,7 @@
 #   docker compose down -v                     apaga todo y BORRA los datos
 #
 # El tutorial completo está en el repositorio del curso: tutoriales/04-docker.md
-
-name: mi-producto
+name: food-drone
 
 services:
   db:
@@ -22,7 +21,7 @@ services:
     ports:
       # puerto-en-tu-computador:puerto-dentro-del-contenedor
       # Usamos 5433 afuera para no chocar con un PostgreSQL que ya tengas instalado.
-      - "5433:5432"
+      - "5435:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d:ro
@@ -36,7 +35,7 @@ services:
     image: adminer
     profiles: ["tools"]
     ports:
-      - "8080:8080"
+      - "8081:8080"
     depends_on:
       - db
 
@@ -44,7 +43,7 @@ services:
     build: .
     profiles: ["full"]
     environment:
-      DATABASE_URL: postgres://app:app@db:5432/app
+      DATABASE_URL: postgres://app:app@db:5434/app
       PORT: "3000"
       NODE_ENV: production
     ports:
